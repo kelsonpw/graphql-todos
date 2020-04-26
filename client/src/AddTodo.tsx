@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { useMutation } from 'urql';
 
-const ADD_TODO = `
-  mutation ($text: String!) {
-    addTodo(text: $text) {
-      id
-    }
-  }
-`;
-
 type AddTodoProps = {
   refreshTodos: () => void;
 };
 
-export default function AddTodo({ refreshTodos }: AddTodoProps) {
+function AddTodo({ refreshTodos }: AddTodoProps) {
   const [newTodo, setNewTodo] = useState('');
   const [, addTodo] = useMutation(ADD_TODO);
   const addTodoMutation = () => {
@@ -43,3 +35,13 @@ export default function AddTodo({ refreshTodos }: AddTodoProps) {
     </header>
   );
 }
+
+const ADD_TODO = `
+  mutation ($text: String!) {
+    addTodo(text: $text) {
+      id
+    }
+  }
+`;
+
+export default AddTodo;

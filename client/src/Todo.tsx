@@ -2,20 +2,6 @@ import React from 'react';
 import { useMutation } from 'urql';
 import cx from 'classnames';
 
-const DELETE_TODO = `
-  mutation($id: ID!) {
-    deleteTodo(id: $id)
-  }
-`;
-
-const UPDATE_TODO = `
-  mutation($id: ID!, $text: String, $complete: Boolean) {
-    editTodo(id: $id, text: $text, complete: $complete) {
-      id
-    }
-  }
-`;
-
 type TodoProps = {
   id: string;
   text: string;
@@ -25,7 +11,7 @@ type TodoProps = {
   setEditing: (editing: string) => void;
 };
 
-export default function Todo({
+function Todo({
   id,
   text,
   complete,
@@ -76,3 +62,19 @@ export default function Todo({
     </li>
   );
 }
+
+const DELETE_TODO = `
+  mutation($id: ID!) {
+    deleteTodo(id: $id)
+  }
+`;
+
+const UPDATE_TODO = `
+  mutation($id: ID!, $text: String, $complete: Boolean) {
+    editTodo(id: $id, text: $text, complete: $complete) {
+      id
+    }
+  }
+`;
+
+export default Todo;

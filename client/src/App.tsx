@@ -8,17 +8,7 @@ import TodoList from './TodoList';
 
 import { Todo, Filter } from './types';
 
-const GET_TODOS = `
-  query { 
-    getTodos {
-      id
-      text
-      complete
-    }
-  }
-`;
-
-export default function App() {
+function App() {
   const [filter, setFilter] = useState<Filter>('all');
   const [{ data }, executeGetTodos] = useQuery({
     query: GET_TODOS,
@@ -53,6 +43,16 @@ export default function App() {
   );
 }
 
+const GET_TODOS = `
+  query { 
+    getTodos {
+      id
+      text
+      complete
+    }
+  }
+`;
+
 const filterTodos = (todos: Todo[], filter: Filter) => {
   if (filter === 'active') {
     return todos.filter(({ complete }) => !complete);
@@ -62,3 +62,5 @@ const filterTodos = (todos: Todo[], filter: Filter) => {
   }
   return todos;
 };
+
+export default App;

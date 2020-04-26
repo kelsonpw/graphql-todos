@@ -5,14 +5,6 @@ import cx from 'classnames';
 
 import { Filter } from './types';
 
-const DELETE_COMPLETED = `
-  mutation {
-    deleteCompleted {
-      id
-    }
-  }
-`;
-
 type FiltersProps = {
   activeCount: number;
   completedCount: number;
@@ -21,7 +13,7 @@ type FiltersProps = {
   refreshTodos: () => void;
 };
 
-export default function Filters({
+function Filters({
   activeCount,
   completedCount,
   filter,
@@ -73,3 +65,13 @@ export default function Filters({
     </footer>
   );
 }
+
+const DELETE_COMPLETED = `
+  mutation {
+    deleteCompleted {
+      id
+    }
+  }
+`;
+
+export default Filters;
