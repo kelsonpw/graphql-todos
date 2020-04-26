@@ -6,6 +6,8 @@ import Footer from './Footer';
 import Filters from './Filters';
 import TodoList from './TodoList';
 
+import { Todo, Filter } from './types';
+
 const GET_TODOS = `
   query { 
     getTodos {
@@ -17,15 +19,15 @@ const GET_TODOS = `
 `;
 
 export default function App() {
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState<Filter>('all');
   const [{ data }, executeGetTodos] = useQuery({
     query: GET_TODOS,
   });
-  const todos = data?.getTodos || [];
-  const refreshTodos = () => {
+  const todos: Todo[] = data?.getTodos || [];
+  const refreshTodos = (): void => {
     executeGetTodos({ requestPolicy: 'network-only' });
   };
-  const filteredTodos = useMemo(() => filterTodos(todos, filter), [
+  const filteredTodos: Todo[] = useMemo(() => filterTodos(todos, filter), [
     todos,
     filter,
   ]);
@@ -51,7 +53,7 @@ export default function App() {
   );
 }
 
-const filterTodos = (todos, filter) => {
+const filterTodos = (todos: Todo[], filter: Filter) => {
   if (filter === 'active') {
     return todos.filter(({ complete }) => !complete);
   }

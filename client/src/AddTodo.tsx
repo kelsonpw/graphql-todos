@@ -9,7 +9,11 @@ const ADD_TODO = `
   }
 `;
 
-export default function AddTodo({ refreshTodos }) {
+type AddTodoProps = {
+  refreshTodos: () => void;
+};
+
+export default function AddTodo({ refreshTodos }: AddTodoProps) {
   const [newTodo, setNewTodo] = useState('');
   const [, addTodo] = useMutation(ADD_TODO);
   const addTodoMutation = () => {

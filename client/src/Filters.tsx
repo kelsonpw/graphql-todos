@@ -3,6 +3,8 @@ import React from 'react';
 import { useMutation } from 'urql';
 import cx from 'classnames';
 
+import { Filter } from './types';
+
 const DELETE_COMPLETED = `
   mutation {
     deleteCompleted {
@@ -11,13 +13,21 @@ const DELETE_COMPLETED = `
   }
 `;
 
+type FiltersProps = {
+  activeCount: number;
+  completedCount: number;
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
+  refreshTodos: () => void;
+};
+
 export default function Filters({
   activeCount,
   completedCount,
   filter,
   setFilter,
   refreshTodos,
-}) {
+}: FiltersProps) {
   const [, deleteCompleted] = useMutation(DELETE_COMPLETED);
   return (
     <footer className="footer">

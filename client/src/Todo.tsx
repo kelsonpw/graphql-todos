@@ -16,6 +16,15 @@ const UPDATE_TODO = `
   }
 `;
 
+type TodoProps = {
+  id: string;
+  text: string;
+  complete: boolean;
+  refreshTodos: () => void;
+  editing: boolean;
+  setEditing: (editing: string) => void;
+};
+
 export default function Todo({
   id,
   text,
@@ -23,11 +32,11 @@ export default function Todo({
   refreshTodos,
   editing,
   setEditing,
-}) {
+}: TodoProps) {
   const [, deleteTodo] = useMutation(DELETE_TODO);
   const [, updateTodo] = useMutation(UPDATE_TODO);
 
-  const updateTodoText = ({ target: { value } }) => {
+  const updateTodoText = (value: string) => {
     if (value) {
       updateTodo({ id, text: value }).then(() => {
         setEditing('');
@@ -59,10 +68,10 @@ export default function Todo({
         defaultValue={text}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            updateTodoText(e);
+            updateTodoText((e.target as HTMLInputElement).value);
           }
         }}
-        onBlur={updateTodoText}
+        onBlur={(e) => updateTodoText((e.target as HTMLInputElement).value)}
       />
     </li>
   );

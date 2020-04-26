@@ -3,6 +3,8 @@ import { useMutation } from 'urql';
 
 import Todo from './Todo';
 
+import { Todo as TodoType } from './types';
+
 const TOGGLE_ALL_TODOS = `
   mutation($complete: Boolean!) {
     toggleAllTodos(complete: $complete) {
@@ -11,7 +13,12 @@ const TOGGLE_ALL_TODOS = `
   }
 `;
 
-export default function TodoList({ todos, refreshTodos }) {
+type TodoListProps = {
+  todos: TodoType[];
+  refreshTodos: () => void;
+};
+
+export default function TodoList({ todos, refreshTodos }: TodoListProps) {
   const [editing, setEditing] = useState('');
   const [toggle, setToggle] = useState(false);
   const [, toggleAllTodos] = useMutation(TOGGLE_ALL_TODOS);
@@ -33,7 +40,7 @@ export default function TodoList({ todos, refreshTodos }) {
         <label htmlFor="toggle-all">Mark all as complete</label>
       </section>
       <ul className="todo-list">
-        {todos.map(({ id, text, complete }) => (
+        {todos.map(({ id, text, complete }: TodoType) => (
           <Todo
             key={id}
             id={id}
