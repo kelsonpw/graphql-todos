@@ -2,26 +2,20 @@ import React from 'react';
 import { useMutation } from 'urql';
 import cx from 'classnames';
 
+import { useAppContext } from './context';
+
 type TodoProps = {
   id: string;
   text: string;
   complete: boolean;
-  refreshTodos: () => void;
   editing: boolean;
   setEditing: (editing: string) => void;
 };
 
-function Todo({
-  id,
-  text,
-  complete,
-  refreshTodos,
-  editing,
-  setEditing,
-}: TodoProps) {
+function Todo({ id, text, complete, editing, setEditing }: TodoProps) {
   const [, deleteTodo] = useMutation(DELETE_TODO);
   const [, updateTodo] = useMutation(UPDATE_TODO);
-
+  const { refreshTodos } = useAppContext();
   const updateTodoText = (value: string) => {
     if (value) {
       updateTodo({ id, text: value }).then(() => {

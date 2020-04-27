@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from 'urql';
 
-type AddTodoProps = {
-  refreshTodos: () => void;
-};
+import { useAppContext } from './context';
 
-function AddTodo({ refreshTodos }: AddTodoProps) {
+function AddTodo() {
   const [newTodo, setNewTodo] = useState('');
   const [, addTodo] = useMutation(ADD_TODO);
+  const { refreshTodos } = useAppContext();
+
   const addTodoMutation = () => {
     if (newTodo) {
       addTodo({ text: newTodo }).then(() => {

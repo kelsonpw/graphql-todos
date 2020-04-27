@@ -7,14 +7,12 @@ import { Todo as TodoType } from './types';
 
 type TodoListProps = {
   todos: TodoType[];
-  refreshTodos: () => void;
 };
 
-function TodoList({ todos, refreshTodos }: TodoListProps) {
+function TodoList({ todos }: TodoListProps) {
   const [editing, setEditing] = useState('');
   const [toggle, setToggle] = useState(false);
   const [, toggleAllTodos] = useMutation(TOGGLE_ALL_TODOS);
-
   return (
     <>
       <section className="main">
@@ -38,7 +36,6 @@ function TodoList({ todos, refreshTodos }: TodoListProps) {
             id={id}
             text={text}
             complete={complete}
-            refreshTodos={refreshTodos}
             editing={editing === id}
             setEditing={setEditing}
           />

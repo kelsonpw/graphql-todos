@@ -3,6 +3,8 @@ import React from 'react';
 import { useMutation } from 'urql';
 import cx from 'classnames';
 
+import { useAppContext } from './context';
+
 import { Filter } from './types';
 
 type FiltersProps = {
@@ -10,7 +12,6 @@ type FiltersProps = {
   completedCount: number;
   filter: Filter;
   setFilter: (filter: Filter) => void;
-  refreshTodos: () => void;
 };
 
 function Filters({
@@ -18,9 +19,9 @@ function Filters({
   completedCount,
   filter,
   setFilter,
-  refreshTodos,
 }: FiltersProps) {
   const [, deleteCompleted] = useMutation(DELETE_COMPLETED);
+  const { refreshTodos } = useAppContext();
   return (
     <footer className="footer">
       <span className="todo-count">

@@ -1,10 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useQuery } from 'urql';
 
 import AddTodo from './AddTodo';
 import Footer from './Footer';
 import Filters from './Filters';
 import TodoList from './TodoList';
+
+import { AppProvider } from './context';
 
 import { Todo, Filter } from './types';
 
@@ -13,33 +15,32 @@ function App() {
   const [{ data }, executeGetTodos] = useQuery({
     query: GET_TODOS,
   });
-  const todos: Todo[] = data?.getTodos || [];
-  const refreshTodos = (): void => {
+  const refreshTodos = useCallback((): void => {
     executeGetTodos({ requestPolicy: 'network-only' });
-  };
+  }, [executeGetTodos]);
+  const todos: Todo[] = data?.getTodos || [];
   const filteredTodos: Todo[] = useMemo(() => filterTodos(todos, filter), [
     todos,
     filter,
   ]);
   return (
-    <>
+    <AppProvider value={{ refreshTodos }}>
       <section className="todoapp">
-        <AddTodo refreshTodos={refreshTodos} />
+        <AddTodo />
         {todos.length > 0 && (
           <>
-            <TodoList todos={filteredTodos} refreshTodos={refreshTodos} />
+            <TodoList todos={filteredTodos} />
             <Filters
               activeCount={filterTodos(filteredTodos, 'active').length}
               completedCount={filterTodos(filteredTodos, 'completed').length}
               filter={filter}
               setFilter={setFilter}
-              refreshTodos={refreshTodos}
             />
           </>
         )}
       </section>
       <Footer />
-    </>
+    </AppProvider>
   );
 }
 
